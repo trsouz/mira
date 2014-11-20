@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="futebolApp">
+<head>
+    <title>Futebol {{time}}</title>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
+    <script src="http://matthewhudson.me/projects/device.js/device.min.js"></script>
+    <script src="futebol.js"></script>
+</head>
+<body>
+<div class="container" ng-controller="mainController">
+    <div ng-hide="location">
+        <div class="jumbotron">
+            <h1 class="text-center">Futebol</h1>
+        </div>
+        <div class="row col-md-10 col-md-offset-1">
+            <div class="items" ng-repeat="item in items">
+                <div class="col-md-6">
+                    <div class="panel-body alert" ng-class="{'alert-success': item.ponto == 3, 'alert-warning': item.ponto == 1, 'alert-danger': item.ponto == 0 }">
+                        <a ng-href="?{{ item.id }}" class="">
+                            <p id="nome" class="lead text-center">{{ item.nome }}</p>
+                            <p id="estado" class="text-center">{{ item.estado }}</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-hide="!location">
+        <div id="display" class="container jumbotron">
+            <h1 class="text-center text-info">{{ detalhe.nome }}</h1>
+        </div>
+        <div id="content" class="container">
+            <div class="col-md-8">
+                <h3 id="jogos_title" when="Brasileiro" class="text-center">{{ title }}</h3>
+                <div class="row" ng-repeat="item in detalhe.partidas">
+                    <div class="text-center alert" ng-class="{'alert-success': item.ponto == 3, 'alert-warning': item.ponto == 1, 'alert-danger': item.ponto == 0 }" >
+                        <h4 class="" ng-if="item.local == 'casa'">
+                            <span class="">{{ detalhe.nome }} {{ item.gols_favor }} X {{ item.gols_contra }}</span>
+                            <a ng-href="?{{ item.contra_id }}" class="">{{ item.brasileiro }}</a>
+                            <p class="text-center" ng-if="item.penaltis_contra || item.penaltis_favor">{{ item.penaltis_favor }} X {{ item.penaltis_contra }}</p>
+                        </h4>
+                        <h4 class="" ng-if="item.local == 'visitante'">
+                            <a ng-href="?{{ item.contra_id }}" class="">{{ item.brasileiro }}</a>
+                            <span class="">{{ item.gols_contra }} X {{ item.gols_favor }} {{ detalhe.nome }}</span>
+                            <p class="text-center" ng-if="item.penaltis_contra || item.penaltis_favor">{{ item.penaltis_contra }} X {{ item.penaltis_favor }}</p>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div id="mapa_box" class="col-md-4">
+                <img ng-src="http://placehold.it/300x300" alt="" ng-if="device.tablet() || device.mobile()" />
+                <div ng-if="device.desktop()">MAPA Normal</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+</div>
+</html>
